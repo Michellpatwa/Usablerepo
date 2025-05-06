@@ -147,6 +147,44 @@ in filters of wireshark type this : (ip.addr == 10.0.2.15)
 n in terminal type this : sudo nmap -sS -Pn --badsum -p <port(s)> <target_ip>
 sudo nmap -sS -Pn --badsum -p 443 34.149.100.209
 
+VIVA QUESTIONS ;
+1. What is the purpose of fragmenting packets with 8-bit data in
+network security testing?
+Answer:Fragmenting packets with 8-bit data helps bypass firewalls or
+IDS systems that block larger, unfragmented packets. By splitting the
+data, it may evade detection and allow malicious traffic through.
+2. What command is used to fragment packets in Nmap?
+Answer:The command used to fragment packets in Nmap is:
+sudo nmap -sS -Pn -f -F <target_ip>
+This command fragments packets and sends them to the target to test
+how firewalls handle fragmented traffic.
+3. How do you filter IP packets by length in Wireshark?
+Answer:To filter IP packets based on length in Wireshark, use the filter:
+ip.src == <source_ip> && tcp.len > 0
+This will show the packets from the specified source IP with a non-zero
+TCP length.
+4. What is the significance of manipulating the TTL (Time-To-Live)
+value in network testing?
+Answer:Manipulating the TTL value tests how firewalls and IDS systems
+handle packets with different TTLs. It can help in evading detection or
+bypassing certain security measures by altering the packet's apparent
+"lifetime."
+5. What command is used to send packets with bogus TCP/UDP
+checksums?
+Answer:To send packets with bogus checksums, use this Nmap
+command:
+sudo nmap -sS -Pn --badsum -p <port> <target_ip>
+This command sends packets with incorrect checksums to test how
+security systems handle such malformed packets.
+CONCLUSION : In this experiment, we tested how altering packet
+headers affects firewalls and IDS systems. By fragmenting packets,
+changing packet lengths, modifying TTL values, and using bogus
+checksums, we observed different system responses. Some
+manipulations successfully bypassed security defenses, revealing
+vulnerabilities in how firewalls and IDS handle these packet changes.
+This highlights the need for advanced, updated security measures to
+prevent evasion and ensure robust network protection.
+
 EXP 9 
 Commands:
 1.	sudo apt update
@@ -162,6 +200,86 @@ RE-Enter paraphrase: abcd
 Enter paraphrase: abcd
 9.	cat secret.txt
 This is a very nice code
+
+What is Steganography?
+Answer: Steganography is the technique of hiding secret information
+ inside a non-suspicious file, like an image or audio file, so that only
+  the sender and receiver know about the hidden information. Unlike cryptography,
+   which encrypts data to make it unreadable, steganography hides data in plain sight.
+
+How does Steghide work for embedding and extracting data?
+Answer: Steghide works by embedding a secret message into a cover file (e.g., an image
+ or audio file). It encrypts the data using AES-128 encryption and ensures that the cover
+  file’s appearance and size are not altered. To extract the hidden message, a passphrase
+   is required to decrypt and retrieve the information.
+
+What are the file formats supported by Steghide?
+Answer: Steghide supports image file formats like JPEG and BMP, and audio file formats
+ like WAV and AU.
+
+What is the importance of the passphrase in Steghide?
+Answer: The passphrase is crucial in Steghide as it is used for encryption and decryption
+ of the hidden data. Without the correct passphrase, it is not possible to extract the embedded
+  data, ensuring the confidentiality and security of the hidden information.
+
+Why is Steganography considered useful in cybersecurity?
+Answer: Steganography is useful in cybersecurity as it allows secure communication by hiding data
+ in a way that avoids detection by traditional security measures like firewalls or intrusion
+  detection systems. It is especially helpful for covert communication or for protecting sensitive
+   data.
+
+What are the risks of using Steganography in a digital forensics context?
+Answer: In digital forensics, steganography poses a challenge because it can be used to hide
+ malicious or illegal content. Detecting and analyzing hidden messages in digital files can be
+  complex and time-consuming, making it difficult to uncover evidence in criminal investigations 
+  or data breaches.
+
+
+
+EXP1
+exp 1
+1.WhoCalled (often found as WhoCalledMe or similar websites) is an
+OSINT (Open Source Intelligence) tool that allows users to identify
+unknown phone numbers—particularly those suspected to be spam,
+telemarketers, scammers, or fraud callers.
+2. Weboproxy is a web-based proxy service that can be used to
+anonymously browse the internet. It's often listed under OSINT tools
+because it helps users access websites without revealing their IP
+address—useful in certain reconnaissance or information-gathering
+scenarios where staying anonymous is important.
+Key Features of Weboproxy:
+Anonymity: Masks your IP while browsing.
+Bypass Restrictions: Can be used to access geo-blocked or restricted
+websites.
+No Installation: Runs entirely in the browser.
+Simple Interface: Just enter the URL you want to visit.
+Link to Use:
+ https://www.weboproxy.com
+3. Anonymous Instagram Profile Viewer Tools
+Dumpor (if available)
+Website: https://dumpor.com
+Browse anonymously by searching usernames, tags, or locations.
+4. Forensic OSINT (Open-Source Intelligence in Forensics)
+Forensic OSINT refers to the use of publicly available data and OSINT
+tools to support digital forensic investigations. It's a combination of
+cyber forensics and open-source intelligence gathering, often used by
+law enforcement, ethical hackers, and investigators to gather legally
+admissible evidence from open sources.
+Purpose of Forensic OSINT
+To gather evidence from online sources (social media, forums, websites,
+domains, etc.)
+To track digital footprints of suspects or victims
+To enrich forensic investigations with context from public data
+To correlate OSINT data with logs, metadata, and digital artefacts
+website : https://haveibeenpwned.com
+1.7 Conclusion:
+This lab introduced the OSINT framework and demonstrated its
+application in collecting
+publicly available data. By using the framework, we were able to
+perform advanced searches,
+gather actionable intelligence, and gain insights into its relevance for
+cybersecurity and
+investigative practices
 
 
 
