@@ -1,0 +1,289 @@
+EXP 1
+sudo apt update
+sudo apt install nmap –y
+nmap google.com
+ping scan- nmap -sn 192.168.1.1
+tcp port scan- nmap 192.168.1.1
+udp port scan- sudo nmap -sU 192.168.1.1
+                            sudo nmap -v -sU –p 8.443.445 -Pn 192.168.1.1
+os fingerprinting-  sudo nmap -O 192.168.1.1
+Key functionalities of Nmap include: 
+● Open Port Scanning: Identifying ports that are open and accessible onasystem. 
+● OS Fingerprinting: Determining the operating system running on a target device based on network responses.
+ ● Ping Scans: Checking the availability of hosts on the network. 
+● TCP/UDP Port Scans: Distinguishing between services running over TCPandUDP protocols.
+
+EXP 2
+whois youtube.com
+dig youtube.com
+traceroute youtube.com
+nslookup youtube.com
+1.	Whois 
+Purpose: 
+•	WHOIS is a query and response protocol that retrieves domain registration information from a public database. 
+•	It provides details about domain ownership, registrar, registration date, expiration date, and contact information (if not hidden for privacy). 
+Use Cases: 
+•	Network Investigation: Determine the owner of a suspicious domain. 
+•	Domain Management: Verify registration details for a domain you own. 
+•	Incident Response: Track down the owner of a domain involved in malicious activity. 
+2.	dig (Domain Information Groper) 
+Purpose: 
+●	dig is a command-line tool for querying DNS servers. 
+●	It retrieves DNS records, such as A (address), MX (mail exchange), TXT, NS (name server), and more. 
+Use Cases: 
+●	DNS Troubleshooting: Check if a domain resolves to the correct IP address. 
+●	Security Analysis: Investigate DNS misconfigurations or unusual record entries. ● Reconnaissance: Gather DNS data for domains of interest. 
+3.	Traceroute 
+Purpose: 
+●	Traceroute tracks the path packets take from the source to the destination. 
+●	It identifies the hops (intermediate devices/routers) and measures the latency between each hop. 
+Use Cases: 
+●	Network Diagnostics: Locate bottlenecks or failures in a network path. 
+●	Routing Analysis: Understand how data travels through the internet. 
+●	Performance Testing: Measure latency and identify inefficient routes. 
+4.	nslookup 
+Purpose: 
+●	nslookup is used to query DNS servers for domain-related information. 
+●	It is simpler than dig and is often included in basic network toolsets. 
+Use Cases: 
+●	Resolve Domain Names: Convert domain names to IP addresses and vice versa. 
+●	Check Nameserver Configurations: Ensure a domain's DNS records are properly configured. 
+●	Troubleshooting: Diagnose issues with DNS resolution. 
+
+EXP 3
+IP address filter: ip.addr == 192.168.1.102
+           Ip & port Filter: ip.addr==192.168.1.102 and tcp.port==80
+              Packet length filter: frame.len > 1024
+              TCP Filter: tcp
+Procedure: Tracing Packets Based on Different Filters 
+Wireshark provides powerful filtering options that allow you to trace specific packets based on criteria such as protocol, IP address, port number, etc. Filters help isolate the traffic of interest, making it easier to analyze network behavior or troubleshoot specific issues.
+Types of Filters in Wireshark: Display Filters: 
+○ Purpose: Display filters are used to refine which packets are shown in the capture window. 
+○ Common Display Filters: 
+IP address filter: To capture packets from or to a specific IP address. Example: ip.addr == 192.168.1.1 
+Protocol filter: To capture packets of a specific protocol (e.g., TCP, UDP, HTTP). Example: tcp 
+Port filter: To filter packets by port number. ■ Example: tcp.port == 80 
+HTTP Filter: To display only HTTP traffic. Example: http 
+Packet length filter: To capture packets of a certain size. Example: frame.len > 1500 
+
+EXP 4
+A mono-alphabetic substitution cipher is a classical encryption technique where each letter of the plaintext is replaced by a unique corresponding letter in the ciphertext. The substitution remains fixed throughout the message.
+For example:
+If A → Q, B → W, C → E... then the word "BAD" becomes "WQF".
+•	There are 26! (factorial) possible keys for the English alphabet, making brute-force decryption impractical.
+•	However, it is vulnerable to frequency analysis, especially when a long ciphertext is available.
+Frequency analysis is a cryptanalysis method based on the fact that letters in any given language occur with predictable frequencies.
+In English, for example:
+•	E is the most common letter (~12.7%),
+•	followed by T, A, O, I, N, etc.
+By comparing the frequency of letters in the cipher text to known letter frequencies in English, you can make educated guesses about which letters map to which. This is especially effective for mono-alphabetic ciphers, where one cipher letter always maps to one plaintext letter.
+
+EXP 5 Design and Implement a product cipher using Substitution ciphers
+Step 1: Create a folder from file explorer and then make a file inside the folder named product_cipher.py
+Step 2:  import random
+import string
+
+# Caesar Cipher Encryption and Decryption
+def caesar_encrypt(text, shift):
+    result = ''
+    for char in text:
+        if char.isalpha():
+            offset = 65 if char.isupper() else 97
+            result += chr((ord(char) - offset + shift) % 26 + offset)
+        else:
+            result += char
+    return result
+
+def caesar_decrypt(cipher, shift):
+    return caesar_encrypt(cipher, -shift)
+
+# Monoalphabetic Cipher Key Generation
+def generate_monoalphabetic_key():
+    letters = list(string.ascii_lowercase)
+    shuffled = letters[:]
+    random.shuffle(shuffled)
+    return dict(zip(letters, shuffled))
+
+# Monoalphabetic Encryption and Decryption
+def mono_encrypt(text, key):
+    result = ''
+    for char in text:
+        if char.isalpha():
+            lower = char.lower()
+            enc = key[lower]
+            result += enc.upper() if char.isupper() else enc
+        else:
+            result += char
+    return result
+
+def mono_decrypt(cipher, key):
+    reversed_key = {v: k for k, v in key.items()}
+    result = ''
+    for char in cipher:
+        if char.isalpha():
+            lower = char.lower()
+            dec = reversed_key[lower]
+            result += dec.upper() if char.isupper() else dec
+        else:
+            result += char
+    return result
+
+# Product Cipher Encryption
+def product_cipher_encrypt(plaintext, caesar_shift, mono_key):
+    caesar_encrypted = caesar_encrypt(plaintext, caesar_shift)
+    final_cipher = mono_encrypt(caesar_encrypted, mono_key)
+    return final_cipher
+
+# Product Cipher Decryption
+def product_cipher_decrypt(ciphertext, caesar_shift, mono_key):
+    mono_decrypted = mono_decrypt(ciphertext, mono_key)
+    final_plain = caesar_decrypt(mono_decrypted, caesar_shift)
+    return final_plain
+
+# MAIN PROGRAM
+if __name__ == "__main__":
+    # Input plaintext
+    plaintext = input("Enter the plaintext: ")
+    caesar_shift = int(input("Enter Caesar Cipher shift value (e.g., 3): "))
+
+    # Generate monoalphabetic cipher key
+    mono_key = generate_monoalphabetic_key()
+    print("Generated Monoalphabetic Key (for encryption):", mono_key)
+
+    # Encrypt
+    ciphertext = product_cipher_encrypt(plaintext, caesar_shift, mono_key)
+    print("Encrypted Ciphertext:", ciphertext)
+
+    # Decrypt
+    decrypted_text = product_cipher_decrypt(ciphertext, caesar_shift, mono_key)
+    print("Decrypted Text:", decrypted_text)
+
+
+Step 3: Run from terminal with command:
+python product_cipher.py
+
+Result: Enter the plaintext: Hello World!
+Enter Caesar Cipher shift value (e.g., 3): 3
+Generated Monoalphabetic Key (for encryption): {'a': 'k', 'b': 'x', ...}
+Encrypted Ciphertext: Kxqqz Xvsqz!
+Decrypted Text: Hello World!
+
+EXP 6
+pip install pycryptodome
+Save the code above into a file called encryptor.py
+Run:   python encryptor.py
+from Crypto.Cipher import AES, DES
+from Crypto.Random import get_random_bytes
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Util import Counter
+
+def get_cipher(algorithm, mode_name, key, iv_or_nonce):
+    mode_map = {
+        'ECB': AES.MODE_ECB,
+        'CBC': AES.MODE_CBC,
+        'CFB': AES.MODE_CFB,
+        'OFB': AES.MODE_OFB,
+        'CTR': AES.MODE_CTR
+    }
+
+    mode = mode_map[mode_name.upper()]
+
+    if algorithm.upper() == 'AES':
+        if mode == AES.MODE_CTR:
+            return AES.new(key, mode, counter=Counter.new(128, initial_value=int.from_bytes(iv_or_nonce, byteorder='big')))
+        elif mode == AES.MODE_ECB:
+            return AES.new(key, mode)
+        else:
+            return AES.new(key, mode, iv=iv_or_nonce)
+    elif algorithm.upper() == 'DES':
+        if mode == DES.MODE_CTR:
+            return DES.new(key, mode, counter=Counter.new(64, initial_value=int.from_bytes(iv_or_nonce, byteorder='big')))
+        elif mode == DES.MODE_ECB:
+            return DES.new(key, mode)
+        else:
+            return DES.new(key, mode, iv=iv_or_nonce)
+    else:
+        raise ValueError("Unsupported algorithm")
+
+def main():
+    algorithm = input("Choose algorithm (AES/DES): ").strip()
+    mode = input("Choose mode (ECB/CBC/CFB/OFB/CTR): ").strip()
+
+    message = input("Enter message to encrypt: ").encode()
+
+    # Key and IV setup
+    if algorithm.upper() == 'AES':
+        key = get_random_bytes(16)
+        block_size = 16
+    elif algorithm.upper() == 'DES':
+        key = get_random_bytes(8)
+        block_size = 8
+    else:
+        print("Unsupported algorithm.")
+        return
+
+    iv_or_nonce = get_random_bytes(block_size)
+
+    # Encrypt
+    cipher_encrypt = get_cipher(algorithm, mode, key, iv_or_nonce)
+    ciphertext = cipher_encrypt.encrypt(pad(message, block_size))
+
+    print("\nEncrypted (hex):", ciphertext.hex())
+
+    # Decrypt
+    cipher_decrypt = get_cipher(algorithm, mode, key, iv_or_nonce)
+    plaintext = unpad(cipher_decrypt.decrypt(ciphertext), block_size)
+
+    print("Decrypted:", plaintext.decode())
+
+if __name__ == "__main__":
+    main()
+
+
+Encryption Algorithms
+ AES (Advanced Encryption Standard): AES is a widely used symmetric encryption algorithm, developed to replace DES (Data Encryption Standard).
+•  Security: AES is considered highly secure, with no practical attacks against it for key sizes 128 bits and above.
+•  Speed: AES is relatively fast and is highly optimized for hardware acceleration, making it suitable for devices ranging from embedded systems to servers.
+•  Modes of Operation:AES can operate in multiple modes like ECB, CBC, CFB, OFB, and CTR. Each mode has different characteristics and is chosen based on specific use cases.
+A symmetric-key block cipher.Works on 128-bit blocks with key sizes of 128, 192, or 256 bits. More secure and modern than DES.
+ DES (Data Encryption Standard): DES is an older symmetric-key block cipher. Security:
+•	DES was broken by brute-force attacks due to its short key length (56 bits). Modern cryptanalysis techniques, like exhaustive search, can easily crack DES.
+•	It’s now considered insecure for modern applications and is largely replaced by AES.
+Speed: DES is relatively fast in software and hardware but has been made obsolete by more secure algorithms.
+An older symmetric-key block cipher.Works on 64-bit blocks with a 56-bit effective key. Considered insecure for sensitive data today.
+
+EXP 9
+Burp Suite
+Use:
+Burp Suite is a tool used for web application security testing. Ethical hackers and cybersecurity analysts use it to find vulnerabilities in websites, like SQL injection, XSS, or broken authentication.
+Working Principle:
+•	Burp Suite works as a proxy between your browser and the internet.
+•	It intercepts and lets you view and modify HTTP requests/responses between your browser and a website.
+•	You can test how the web app reacts to tampered inputs or automated attacks (like brute force or fuzzing).
+•	Key tools inside Burp:
+•	Proxy – Catches website traffic so you can see and change it before it goes to the server.
+•	Intruder – Sends lots of test inputs to find weak spots like login cracks or bad input checks.
+•	Repeater – Lets you manually resend and change requests to test how the website reacts.
+•	Scanner – Auto-checks for common bugs like SQL injection or XSS (only in paid version).
+Steghide: Use:
+Steghide is used for steganography, i.e., hiding secret data (text, files) inside media files like images or audio files, without visibly changing them.
+Working Principle:
+•	Steghide hides data in least significant bits (LSB) of image/audio files.
+•	The hidden data is often encrypted with a passphrase, making it even more secure.
+•	It can also extract the hidden data if the correct passphrase is provided.
+Commands:
+•	1.	sudo apt update
+•	2.	sudo apt install steghide –y
+•	3.	cd Desktop          (Save a .jpeg image from the browser to the Desktop and an empty file called secret.txt file as well)
+•	4.	ls
+•	5.	echo “This is a very nice code” > secret.txt        (The sentence is saved in the secret.txt)
+•	6.	steghide embed -cf hacker.jpeg -ef secret.txt
+Enter paraphrase(password):abcd
+RE-Enter paraphrase: abcd
+•	7.	ls –l
+•	8.	steghide extract -sf hacker.jpeg
+Enter paraphrase: abcd
+•	9.	cat secret.txt
+This is a very nice code
+
+
