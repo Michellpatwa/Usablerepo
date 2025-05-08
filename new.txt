@@ -252,6 +252,40 @@ A symmetric-key block cipher.Works on 128-bit blocks with key sizes of 128, 192,
 Speed: DES is relatively fast in software and hardware but has been made obsolete by more secure algorithms.
 An older symmetric-key block cipher.Works on 64-bit blocks with a 56-bit effective key. Considered insecure for sensitive data today.
 
+
+
+EXP 7 
+AIM : Study of malicious software using different tools: a) Keylogger attack using a
+keylogger tool. b) Simulate DOS attack using Hping or other tools c) Use the
+NESSUS/ISO Kali Linux tool to scan the network for vulnerabilities 
+ LAB OUTCOME : In this exp we Successfully simulated a keylogger attack, performed a DoS attack using hping3, and scanned network vulnerabilities using Nessus. 
+ REQUIREMENTS : Keylogger tool (e.g., Revealer Keylogger, KidLogger, Spyrix Free Keylogger)
+Windows/Linux machine to execute the attack
+Hping3 (available in Kali Linux)
+Nessus (Tenable Nessus Scanner) – for network vulnerability assessment
+PROGRAM/COMMANDS : 1. FOR KEYLOGGER USE SPYRIX N FOLLOW THE BASIC STEPS 
+2.DOS ATTACK COMMAND : sudo hping3 -S --flood -p 80 192.168.1.1
+3. For nessus first go to firefox and download nessus debian version and then do cd downloads 
+Then in terminal type this command : dpkg -i Nessus-10.8.4-debian10_amd64.deb
+then at the bottom run as it is instucted and the the nessus page will be shown
+login and then select any random ip address and also download the report
+conclusion : In this experiment, we explored different cybersecurity threats and defense mechanisms through three
+key exercises. First, we performed a keylogger attack using Spyrix, which captured every keystroke
+and took screenshots of the system, showcasing how attackers can secretly monitor user activity.
+Second, we performed a Denial of Service (DoS) attack using Hping3, demonstrating how an attacker
+can flood a target system with excessive packets, leading to service disruption. Lastly, we conducted a
+network vulnerability scan using Nessus, identifying security weaknesses that could potentially be
+exploited by attackers.
+Related Theory 
+1. Keylogger Tool
+A keylogger records every keystroke made by a user. It is often used by attackers to capture passwords, chat logs, and other confidential information silently. Common tools: Logkeys, LKL, or custom scripts.
+🛠️ 2. hping3
+hping3 is a command-line packet generator and analyzer used for network testing and DoS attack simulation. It allows you to send custom TCP/IP packets and flood a target system to test its response and stability.
+🛠️ 3. Nessus
+Nessus is a powerful vulnerability scanner that scans systems for known security issues like outdated software, misconfigurations, and exposed ports. It is widely used by professionals for proactive network defense.
+
+
+
 EXP 9
 Burp Suite
 Use:
